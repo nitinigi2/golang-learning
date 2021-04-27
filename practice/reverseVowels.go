@@ -1,6 +1,4 @@
-package main
-
-import "fmt"
+package practice
 
 /*
 	https://leetcode.com/problems/reverse-vowels-of-a-string/
@@ -34,7 +32,7 @@ func isVowel(ch byte) bool {
 	return false
 }
 
-func main() {
-	s := "leetcode"
-	fmt.Println(reverseVowels(s))
-}
+// func main() {
+// 	s := "leetcode"
+// 	fmt.Println(reverseVowels(s))
+// }
