@@ -1,5 +1,9 @@
 package main
 
+/*
+	description : Use go modules, pick three random smiles from https://github.com/kyokomi/emoji and print them into the console
+*/
+
 import (
 	"fmt"
 
