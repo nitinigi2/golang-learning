@@ -7,6 +7,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"time"
 
 	"github.com/kyokomi/emoji/v2"
 )
@@ -31,7 +32,7 @@ func main() {
 	 print emojis
 */
 func randomEmoji(noOfRandomEmoji int) {
-
+	rand.Seed(time.Now().UTC().UnixNano()) // providing seed to generate random numbers always
 	emogies := emoji.CodeMap()
 	slice := make([]string, 0)
 	for key := range emogies {
