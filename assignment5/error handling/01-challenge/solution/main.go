@@ -1,7 +1,9 @@
 package main
 
 import (
+	"errors"
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -25,7 +27,9 @@ func main() {
 
 	feet, err := strconv.ParseFloat(arg, 64)
 	if err != nil {
-		fmt.Printf("'%s' is not a number", arg)
+		errMessage := arg + " is not a number"
+		errorObj := errors.New(errMessage)
+		log.Fatal(errorObj)
 	} else {
 		meters := feet * 0.3048
 		fmt.Printf("%g feet is %g meters.\n", feet, meters)
