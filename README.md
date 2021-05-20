@@ -16,3 +16,5 @@ https://github.com/golang/go/wiki/Errors
 https://gobyexample.com/errors
 
 https://blog.golang.org/defer-panic-and-recover
+
+Use ```go run --race .``` to check for race condition
