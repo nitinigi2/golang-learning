@@ -24,7 +24,10 @@ func main() {
 	}
 
 	arg := os.Args[1]
+	convertToMeter(arg)
+}
 
+func convertToMeter(arg string) {
 	feet, err := strconv.ParseFloat(arg, 64)
 	if err != nil {
 		errMessage := arg + " is not a number"
