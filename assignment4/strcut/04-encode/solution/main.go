@@ -10,9 +10,9 @@ import (
 )
 
 type item struct {
-	Id    int
-	Name  string
-	Price int
+	id    int
+	name  string
+	price int
 }
 
 type game struct {
@@ -21,24 +21,24 @@ type game struct {
 }
 
 type jsonGame struct {
-	Id    int    `json:"id"`
-	Name  string `json:"name"`
+	id    int    `json:"id"`
+	name  string `json:"name"`
 	Genre string `json:"genre"`
-	Price int    `json:"price"`
+	price int    `json:"price"`
 }
 
 func loadGameData() []game {
 	return []game{
 		{
-			item:  item{Id: 1, Name: "god of war", Price: 50},
+			item:  item{id: 1, name: "god of war", price: 50},
 			genre: "action adventure",
 		},
 		{
-			item:  item{Id: 2, Name: "x-com 2", Price: 40},
+			item:  item{id: 2, name: "x-com 2", price: 40},
 			genre: "strategy",
 		},
 		{
-			item:  item{Id: 3, Name: "minecraft", Price: 20},
+			item:  item{id: 3, name: "minecraft", price: 20},
 			genre: "sandbox",
 		},
 	}
@@ -51,7 +51,7 @@ func main() {
 	DictById := make(map[int]game)
 
 	for _, g := range games {
-		DictById[g.Id] = g
+		DictById[g.id] = g
 	}
 
 	reader := bufio.NewScanner(os.Stdin)
@@ -78,27 +78,27 @@ func main() {
 		case "list":
 			for _, g := range games {
 				fmt.Printf("#%d: %-15q %-20s $%d\n",
-					g.Id, g.Name, "("+g.genre+")", g.Price)
+					g.id, g.name, "("+g.genre+")", g.price)
 			}
 
 		case "id":
 			if len(option) != 2 {
-				fmt.Println("wrong Id")
+				fmt.Println("wrong id")
 				continue
 			}
 
-			Id, err := strconv.Atoi(option[1])
+			id, err := strconv.Atoi(option[1])
 			if err != nil {
-				fmt.Println("wrong Id")
+				fmt.Println("wrong id")
 				continue
 			}
 
-			g, ok := DictById[Id]
+			g, ok := DictById[id]
 			if !ok {
 				fmt.Println("sorry. i don't have the game")
 				continue
 			} else {
-				fmt.Printf("#%d: %-15q %-20s $%d\n", g.Id, g.Name, "("+g.genre+")", g.Price)
+				fmt.Printf("#%d: %-15q %-20s $%d\n", g.id, g.name, "("+g.genre+")", g.price)
 			}
 
 		case "save":
@@ -107,7 +107,7 @@ func main() {
 
 			for _, g := range games {
 				jsonData = append(jsonData,
-					jsonGame{g.Id, g.Name, g.genre, g.Price})
+					jsonGame{g.id, g.name, g.genre, g.price})
 			}
 
 			out, err := json.Marshal(jsonData)
