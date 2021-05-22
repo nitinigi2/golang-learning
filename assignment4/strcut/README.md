@@ -21,3 +21,11 @@ You'll build a queryable command-line game store.
 5. **[Decode](https://github.com/inancgumus/learngo/tree/master/24-structs/exercises/05-decode)**
 
     Load the initial data to the game store from json.
+
+Interfaces
+
+https://github.com/inancgumus/learngo/tree/master/interfaces
+
+Structs
+
+https://github.com/inancgumus/learngo/tree/master/24-structs
