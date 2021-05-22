@@ -20,15 +20,15 @@ type game struct {
 func loadGameData() []game {
 	return []game{
 		{
-			item:  item{Id: 1, Name: "god of war", Price: 50},
+			item:  item{id: 1, name: "god of war", price: 50},
 			genre: "action adventure",
 		},
 		{
-			item:  item{Id: 2, Name: "x-com 2", Price: 40},
+			item:  item{id: 2, name: "x-com 2", price: 40},
 			genre: "strategy",
 		},
 		{
-			item:  item{Id: 3, Name: "minecraft", Price: 20},
+			item:  item{id: 3, name: "minecraft", price: 20},
 			genre: "sandbox",
 		},
 	}
