@@ -18,3 +18,7 @@ https://gobyexample.com/errors
 https://blog.golang.org/defer-panic-and-recover
 
 Use ```go run --race .``` to check for race condition
+
+```close chanel of unknown length```
+
+https://stackoverflow.com/questions/34283255/closing-channel-of-unknown-length/34283635#34283635
