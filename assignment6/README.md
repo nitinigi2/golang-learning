@@ -1,0 +1,1 @@
+# Write a program which reads full path to the directory and return statistic about how many files this directory have grouped by file extension
