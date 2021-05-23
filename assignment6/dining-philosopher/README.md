@@ -1,6 +1,6 @@
 # Dining-Philosophers Problem 
 
-N philosophers seated around a circular table
+5 philosophers seated around a circular table
 
 1) There is one chopstick between each philosopher
 
