@@ -49,14 +49,22 @@ type jsonGame struct {
 	Price int    `json:"price"`
 }
 
-func unMarshallData() ([]game, error) {
+func unMarshallGames() ([]jsonGame, error) {
 	var unmarshalledData []jsonGame
 	if err := json.Unmarshal([]byte(data), &unmarshalledData); err != nil {
+		return []jsonGame{}, err
+	}
+	return unmarshalledData, nil
+}
+
+func getAllGames() ([]game, error) {
+	jsonGames, err := unMarshallGames()
+	if err != nil {
 		return []game{}, err
 	}
 
 	var games []game
-	for _, dg := range unmarshalledData {
+	for _, dg := range jsonGames {
 		games = append(games,
 			game{
 				item:  item{dg.ID, dg.Name, dg.Price},
@@ -67,9 +75,12 @@ func unMarshallData() ([]game, error) {
 	return games, nil
 }
 
+const GameInstrction = "list : list all the games\nquit : quit game\nid N : queries a game by id+ \nsave : exports the data to json and quits\n"
+
 func main() {
 
-	games, err := unMarshallData()
+	games, err := getAllGames()
+
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -82,39 +93,44 @@ func main() {
 
 	reader := bufio.NewScanner(os.Stdin)
 	for {
-		fmt.Println()
-		fmt.Println("list : list all the games\nquit : quit game\nid N : queries a game by id+ \nsave : exports the data to json and quits\n")
+		fmt.Println(GameInstrction)
 
 		if !reader.Scan() {
 			break
 		}
 
-		fmt.Println()
-
 		option := strings.Fields(reader.Text())
 		if len(option) == 0 {
 			continue
 		}
+		isQuit := doOperation(option, games, DictById)
 
-		switch option[0] {
-		case "quit":
-			fmt.Println("Application End")
+		if isQuit {
 			return
-
-		case "list":
-			printGameData(games)
-
-		case "id":
-			findGameById(option, DictById)
-
-		case "save":
-			saveGame(games)
-			return
-
-		default:
-			fmt.Println("Invalid input")
 		}
 	}
+}
+
+func doOperation(option []string, games []game, DictById map[int]game) bool {
+	switch option[0] {
+	case "quit":
+		fmt.Println("Application End")
+		return true
+
+	case "list":
+		printGameData(games)
+
+	case "id":
+		findGameById(option, DictById)
+
+	case "save":
+		saveGame(games)
+		return true
+
+	default:
+		fmt.Println("Invalid input")
+	}
+	return false
 }
 
 func saveGame(games []game) {
