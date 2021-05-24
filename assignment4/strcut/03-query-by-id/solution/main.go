@@ -55,44 +55,54 @@ func main() {
 		fmt.Println()
 
 		option := strings.Fields(reader.Text())
-		if len(option) == 0 {
-			continue
-		}
 
-		switch option[0] {
-		case "quit":
-			fmt.Println("Application End!")
+		isQuit := doOperation(option, games, dictByID)
+
+		if isQuit {
 			return
-
-		case "list":
-			for _, g := range games {
-				fmt.Printf("#%d: %-15q %-20s $%d\n",
-					g.id, g.name, "("+g.genre+")", g.price)
-			}
-
-		case "id":
-			if len(option) != 2 {
-				fmt.Println("wrong id")
-				continue
-			}
-
-			id, err := strconv.Atoi(option[1])
-			if err != nil {
-				fmt.Println("wrong id")
-				continue
-			}
-
-			g, ok := dictByID[id]
-			if !ok {
-				fmt.Println("sorry. i don't have the game")
-				continue
-			} else {
-				fmt.Printf("#%d: %-15q %-20s $%d\n",
-					g.id, g.name, "("+g.genre+")", g.price)
-			}
-
-		default:
-			fmt.Println("Invalid input")
 		}
 	}
+}
+
+func doOperation(option []string, games []game, dictByID map[int]game) bool {
+	if len(option) == 0 {
+		return false
+	}
+
+	switch option[0] {
+	case "quit":
+		fmt.Println("Application End!")
+		return true
+
+	case "list":
+		for _, g := range games {
+			fmt.Printf("#%d: %-15q %-20s $%d\n",
+				g.id, g.name, "("+g.genre+")", g.price)
+		}
+
+	case "id":
+		if len(option) != 2 {
+			fmt.Println("wrong id")
+			return false
+		}
+
+		id, err := strconv.Atoi(option[1])
+		if err != nil {
+			fmt.Println("wrong id")
+			return false
+		}
+
+		g, ok := dictByID[id]
+		if !ok {
+			fmt.Println("sorry. i don't have the game")
+		} else {
+			fmt.Printf("#%d: %-15q %-20s $%d\n",
+				g.id, g.name, "("+g.genre+")", g.price)
+		}
+
+	default:
+		fmt.Println("Invalid input")
+		return false
+	}
+	return false
 }

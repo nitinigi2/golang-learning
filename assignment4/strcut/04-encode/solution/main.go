@@ -76,51 +76,63 @@ func main() {
 			return
 
 		case "list":
-			for _, g := range games {
-				fmt.Printf("#%d: %-15q %-20s $%d\n",
-					g.id, g.name, "("+g.genre+")", g.price)
-			}
+			printGameData(games)
 
 		case "id":
-			if len(option) != 2 {
-				fmt.Println("wrong id")
-				continue
-			}
-
-			id, err := strconv.Atoi(option[1])
-			if err != nil {
-				fmt.Println("wrong id")
-				continue
-			}
-
-			g, ok := DictById[id]
-			if !ok {
-				fmt.Println("sorry. i don't have the game")
-				continue
-			} else {
-				fmt.Printf("#%d: %-15q %-20s $%d\n", g.id, g.name, "("+g.genre+")", g.price)
-			}
+			findGameById(option, DictById)
 
 		case "save":
+			saveGame(games)
 
-			jsonData := make([]jsonGame, 0)
-
-			for _, g := range games {
-				jsonData = append(jsonData,
-					jsonGame{g.id, g.name, g.genre, g.price})
-			}
-
-			out, err := json.Marshal(jsonData)
-			if err != nil {
-				fmt.Println("Sorry:", err)
-				continue
-			}
-
-			fmt.Println(string(out))
 			return
 
 		default:
 			fmt.Println("Invalid input")
 		}
+	}
+}
+
+func saveGame(games []game) {
+	jsonData := make([]jsonGame, 0)
+
+	for _, g := range games {
+		jsonData = append(jsonData,
+			jsonGame{g.id, g.name, g.genre, g.price})
+	}
+
+	out, err := json.Marshal(jsonData)
+	if err != nil {
+		fmt.Println("Sorry:", err)
+		return
+	}
+
+	fmt.Println(string(out))
+}
+
+func findGameById(option []string, DictById map[int]game) {
+	if len(option) != 2 {
+		fmt.Println("wrong id")
+		return
+	}
+
+	id, err := strconv.Atoi(option[1])
+	if err != nil {
+		fmt.Println("wrong id")
+		return
+	}
+
+	g, ok := DictById[id]
+	if !ok {
+		fmt.Println("game id not found")
+		return
+	} else {
+		fmt.Printf("#%d: %-15q %-20s $%d\n", g.id, g.name, "("+g.genre+")", g.price)
+	}
+}
+
+func printGameData(games []game) {
+	for _, g := range games {
+		fmt.Printf("#%d: %-15q %-20s $%d\n",
+			g.id, g.name, "("+g.genre+")", g.price)
 	}
 }

@@ -49,19 +49,32 @@ func main() {
 			break
 		}
 
-		switch reader.Text() {
-		case "quit":
-			fmt.Println("bye!")
+		option := reader.Text()
+
+		isQuit := doOperation(option, games)
+
+		if isQuit {
 			return
-
-		case "list":
-			for _, g := range games {
-				fmt.Printf("#%d: %-15q %-20s $%d\n",
-					g.id, g.name, "("+g.genre+")", g.price)
-			}
-
-		default:
-			fmt.Println("Invalid input")
 		}
+
+	}
+}
+
+func doOperation(option string, games []game) bool {
+	switch option {
+	case "quit":
+		fmt.Println("Program Exit!")
+		return true
+
+	case "list":
+		for _, g := range games {
+			fmt.Printf("#%d: %-15q %-20s $%d\n",
+				g.id, g.name, "("+g.genre+")", g.price)
+		}
+		return false
+
+	default:
+		fmt.Println("Invalid input")
+		return false
 	}
 }
