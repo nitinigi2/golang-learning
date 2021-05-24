@@ -34,7 +34,7 @@ func eat(philosopherId int, wg *sync.WaitGroup) {
 
 	fmt.Println("Philosopher ", philosopherId, " is eating")
 
-	// assuming each philoshoper will take 1 sec in eating
+	// assuming each philoshoper will take 2 sec in eating
 	time.Sleep(2 * time.Second)
 
 	forks[leftFork].Unlock()
