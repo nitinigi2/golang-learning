@@ -6,24 +6,42 @@ import (
 	"time"
 )
 
+// each fork has a mutex, so each individual fork can be locked or unlocked
 type Fork struct {
-	available bool
-	m         sync.Mutex
+	sync.Mutex
 }
 
 func getForks() [5]*Fork {
 	arr := [5]*Fork{}
 	for i := 0; i < 5; i++ {
-		arr[i] = &Fork{
-			available: true,
-		}
+		arr[i] = &Fork{sync.Mutex{}}
 	}
 	return arr
 }
 
 var forks = getForks()
 
+// each philosopher only has a id associated with them
 var philosophers = [5]int{0, 1, 2, 3, 4}
+
+func eat(philosopherId int, wg *sync.WaitGroup) {
+	defer wg.Done()
+	leftFork := (philosopherId + 4) % 5
+	rightFork := (philosopherId + 1) % 5
+
+	forks[leftFork].Lock()
+	forks[rightFork].Lock()
+
+	fmt.Println("Philosopher ", philosopherId, " is eating")
+
+	// assuming each philoshoper will take 1 sec in eating
+	time.Sleep(2 * time.Second)
+
+	forks[leftFork].Unlock()
+	forks[rightFork].Unlock()
+
+	fmt.Println("Philosopher ", philosopherId, "finished eating")
+}
 
 func main() {
 	wg := &sync.WaitGroup{}
@@ -34,26 +52,4 @@ func main() {
 	}
 
 	wg.Wait()
-}
-
-func eat(philosopherId int, wg *sync.WaitGroup) {
-	defer wg.Done()
-	left := (philosopherId + 4) % 5
-	right := (philosopherId + 1) % 5
-
-	forks[left].m.Lock()
-	forks[right].m.Lock()
-
-	forks[left].available = false
-	forks[right].available = false
-
-	fmt.Println("Philosopher ", philosopherId, " is eating")
-	time.Sleep(time.Millisecond * time.Duration(philosopherId+900))
-	fmt.Println("Philosopher ", philosopherId, "finished eating")
-
-	forks[left].available = true
-	forks[right].available = true
-
-	forks[left].m.Unlock()
-	forks[right].m.Unlock()
 }
