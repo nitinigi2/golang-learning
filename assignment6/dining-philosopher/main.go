@@ -11,6 +11,7 @@ type Fork struct {
 	sync.Mutex
 }
 
+// generate 5 forks
 func getForks() [5]*Fork {
 	arr := [5]*Fork{}
 	for i := 0; i < 5; i++ {
@@ -24,6 +25,9 @@ var forks = getForks()
 // each philosopher only has a id associated with them
 var philosophers = [5]int{0, 1, 2, 3, 4}
 
+// this func allows only 2 philosophers to eat concurrently
+// for this philosopher takes lock on left and right fork first before eating
+// once he finished eating, he releases the lock
 func eat(philosopherId int, wg *sync.WaitGroup) {
 	defer wg.Done()
 	leftFork := (philosopherId + 4) % 5
