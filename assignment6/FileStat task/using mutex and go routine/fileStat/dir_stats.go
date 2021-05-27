@@ -11,6 +11,8 @@ import (
 	"sync"
 )
 
+// return total no of files in the input directory
+// populate map[file extension]no_of_files
 func GetDirStats(directoryPath string) {
 	// map with file extension as key and count as value
 	dict := make(map[string]int)
@@ -25,6 +27,8 @@ func GetDirStats(directoryPath string) {
 	printStats(dict)
 }
 
+// print file extension with no of files of each type
+// print total no of files
 func printStats(dict map[string]int) {
 	fmt.Printf("%30s%15s\n", "Extension", "No of files")
 	for key, value := range dict {
@@ -33,6 +37,7 @@ func printStats(dict map[string]int) {
 	fmt.Println("Total no of files: ", totalNoFiles(dict))
 }
 
+// return total no of files in the input directory
 func totalNoFiles(dict map[string]int) int {
 	total := 0
 
@@ -42,6 +47,7 @@ func totalNoFiles(dict map[string]int) int {
 	return total
 }
 
+// read dir path from console as input
 func ReadDirectoryPath() string {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("Enter directory path: ")
@@ -56,11 +62,14 @@ func ReadDirectoryPath() string {
 	return directoryPath
 }
 
-/*
-	if current path represnts a dir then start a new go-routine and
-	call this function recursively
-	if current path represnts a file then update map[file_extension]no_of_files
-*/
+// path - path of dir
+// dict - map with key-file extension, value- no of files
+// wg - used to wait for go-routines until all are done
+// m - mutex, used for locking map
+// function check for each path if it represnts a file or dir
+// if path is of file, just pass it through the channel
+// if path is dir, then start new go-routine for it's child
+// do above steps recursivly until each dir/file is processed
 func findStats(path string, dict map[string]int, wg *sync.WaitGroup, m *sync.Mutex) {
 
 	defer wg.Done()
@@ -81,6 +90,8 @@ func findStats(path string, dict map[string]int, wg *sync.WaitGroup, m *sync.Mut
 			if fileExtension == "" {
 				fileExtension = "hidden"
 			}
+
+			// apply lock as concurrent writes are not allowed
 			m.Lock()
 			dict[fileExtension]++
 			m.Unlock()
