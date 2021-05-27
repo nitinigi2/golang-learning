@@ -11,6 +11,7 @@ import (
 	"sync"
 )
 
+// return total no of files in the input directory
 func totalNoFiles(dict map[string]int) int {
 	total := 0
 
@@ -20,6 +21,14 @@ func totalNoFiles(dict map[string]int) int {
 	return total
 }
 
+// path - path of dir
+// dict - map with key-file extension, value- no of files
+// wg - used to wait for go-routines until all are done
+// ch - send file extension as message
+// function check for each path if it represnts a file or dir
+// if path is of file, just pass it through the channel
+// if path is dir, then start new go-routine for it's child
+// do above steps recursivly until each dir/file is processed
 func findStats(path string, dict map[string]int, wg *sync.WaitGroup, ch chan string) {
 	defer wg.Done()
 
@@ -47,6 +56,7 @@ func findStats(path string, dict map[string]int, wg *sync.WaitGroup, ch chan str
 	}
 }
 
+// read dir path from console as input
 func ReadDirPath() string {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("Enter directory path: ")
@@ -61,17 +71,20 @@ func ReadDirPath() string {
 	return directoryPath
 }
 
+// populate map[file extension]no_of_files
 func LoadDirStat(path string) {
 	// map with file extension as key and count as value
 	dict := make(map[string]int)
 
-	wg := &sync.WaitGroup{}
-	ch := make(chan string)
+	wg := &sync.WaitGroup{} // this will help this func to wait until every go-routine finished it's job
+	ch := make(chan string) // this will help us to pass file extension of each file
 
 	// 1 for findStat and 1 for wait function
 	wg.Add(2)
 	go findStats(path, dict, wg, ch)
 
+	// because we don't know total no of go-routines
+	// this will close the close the as soon as all go-routine finish their work
 	go func() {
 		wg.Done()
 		wg.Wait()
@@ -79,7 +92,7 @@ func LoadDirStat(path string) {
 	}()
 
 	func() {
-		for msg := range ch {
+		for msg := range ch { // putting very file extension recived from channel to this map
 			dict[msg]++
 		}
 	}()
@@ -87,6 +100,8 @@ func LoadDirStat(path string) {
 	printStat(dict)
 }
 
+// print file extension with no of files of each type
+// print total no of files
 func printStat(dict map[string]int) {
 	fmt.Printf("%30s%15s\n", "Extension", "No of files")
 	for key, value := range dict {
