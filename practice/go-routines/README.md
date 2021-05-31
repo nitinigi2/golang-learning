@@ -1,3 +1,5 @@
+Use ```go run --race .``` to check for race condition
+
 # type WaitGroup
 
 A WaitGroup waits for a collection of goroutines to finish.The main goroutine calls Add to set the number of goroutines to wait for. Then each of the goroutines runs and calls Done when finished. At the same time, Wait can be used to block until all goroutines have finished.
@@ -22,7 +24,11 @@ RLock is a shared read lock. When a lock is taken with it, other threads* can al
 
 If the mutex is read locked, a call to Lock is blocked**. If one or more readers hold a lock, you cannot write.
 
-If the mutex is write locked (with Lock), RLock will block
+If the mutex is write locked (with Lock), RLock will block.
+
+You may be thinking: If my application is read heavy, would that mean a writer could be blocked indefinitely? No. There is one more useful property of RWMutex:
+
+If the reader counter is > 0 and Lock is called, future calls to RLock will also block until the existing readers have released their locks, the writer has obtained his lock and later releases it.
 
 https://stackoverflow.com/questions/19148809/how-to-use-rwmutex-in-golang
 
