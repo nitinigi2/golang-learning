@@ -17,6 +17,21 @@ Channel sends a copy to targeted go-routines.
 
    ```channel_name:= make(chan Type)```
 
+# Types
+
+1) bidirectional channel
+
+        func funcName(ch chan type) { // something}
+
+2) send-only channel
+
+        func funcName(ch chan<- type) { //something}
+
+2) recieve-only channel
+
+        func funcName(ch <-chan type) { //something}
+
+
 # Important Points
 
 1) Blocking Send and Receive: In the channel when the data sent to a channel the control is blocked in that send statement until other goroutine reads from that channel. Similarly, when a channel receives data from the goroutine the read statement block until another goroutine statement.
