@@ -1,0 +1,47 @@
+[
+    {
+        "id": 1,
+        "isbn": "12vd34",
+        "title": "sample 1",
+        "author": {
+            "Firstname": "John",
+            "Lastname" : "Doe"
+        }
+    },
+    {
+        "id": 2,
+        "isbn": "23red",
+        "title": "sample 2",
+        "author": {
+            "Firstname": "Alice",
+            "Lastname" : "Doe"
+        }
+    },
+    {
+        "id": 3,
+        "isbn": "ghewst6",
+        "title": "sample 3",
+        "author": {
+            "Firstname": "Steve",
+            "Lastname" : "smith"
+        }
+    },
+    {
+        "id": 4,
+        "isbn": "32dw",
+        "title": "sample 4",
+        "author": {
+            "Firstname": "Akala",
+            "Lastname" : "Ambu"
+        }
+    },
+    {
+        "id": 5,
+        "isbn": "frew",
+        "title": "sample 5",
+        "author": {
+            "Firstname": "Bika",
+            "Lastname" : "Rey"
+        }
+    }
+]
