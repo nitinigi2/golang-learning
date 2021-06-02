@@ -2,13 +2,14 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
 
 	"github.com/gorilla/mux"
+	"github.com/nitinigi2/practice/rest-api/database"
 	"github.com/nitinigi2/practice/rest-api/model"
-	"github.com/nitinigi2/practice/rest-api/service"
 )
 
 func RegisterHandlers(r *mux.Router) {
@@ -19,7 +20,11 @@ func RegisterHandlers(r *mux.Router) {
 func booksHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		books := service.GetBooks()
+		books, err := database.GetAllBooks()
+		if err != nil {
+			fmt.Println(err)
+		}
+		//books := service.GetBooks()
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(books)
 
@@ -30,7 +35,8 @@ func booksHandler(w http.ResponseWriter, r *http.Request) {
 			log.Fatal(err)
 			return
 		}
-		err = service.CreateBook(book)
+		err = database.SaveBook(book)
+		//err = service.CreateBook(book)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
@@ -55,7 +61,7 @@ func bookHandler(w http.ResponseWriter, r *http.Request) {
 	case http.MethodGet:
 		w.Header().Set("Content-Type", "application/json")
 
-		book, err := service.GetBook(bookId)
+		book, err := database.GetBook(bookId)
 
 		if err != nil {
 			w.WriteHeader(http.StatusNotFound)
@@ -71,7 +77,8 @@ func bookHandler(w http.ResponseWriter, r *http.Request) {
 
 	case http.MethodDelete:
 
-		err := service.DeleteBook(bookId)
+		err := database.DeleteBook(bookId)
+		//err := service.DeleteBook(bookId)
 
 		if err != nil {
 			log.Fatal(err)
@@ -89,8 +96,8 @@ func bookHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		err := service.UpdateBook(book)
-
+		//err := service.UpdateBook(book)
+		err := database.UpdateBook(book)
 		if err != nil {
 			log.Fatal(err)
 			w.WriteHeader(http.StatusInternalServerError)
