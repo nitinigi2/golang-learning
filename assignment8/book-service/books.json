@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "isbn": "12vd34",
+        "title": "sample 1",
+        "description" : "desc1",
+        "category" : "category1",
+        "author": "John Doe"
+    },
+    {
+        "id": 2,
+        "isbn": "23red",
+        "title": "sample 2",
+        "description" : "desc2",
+        "category" : "category2",
+        "author": "John Doe2"
+    },
+    {
+        "id": 3,
+        "isbn": "ghewst6",
+        "title": "sample 3",
+        "description" : "desc3",
+        "category" : "category3",
+        "author": "John Doe3"
+    },
+    {
+        "id": 4,
+        "isbn": "32dw",
+        "title": "sample 4",
+        "description" : "desc4",
+        "category" : "category4",
+        "author": "John Doe4"
+    },
+    {
+        "id": 5,
+        "isbn": "frew",
+        "title": "sample 5",
+        "description" : "desc5",
+        "category" : "category5",
+        "author": "John Doe5"
+    }
+]
