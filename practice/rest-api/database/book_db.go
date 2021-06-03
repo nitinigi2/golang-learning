@@ -57,10 +57,10 @@ func UpdateBook(book model.Book) error {
 	// close the db connection
 	defer db.Close()
 
-	sqlStatement := `UPDATE BOOK SET isbn=?, title=? WHERE id=?`
+	sqlStatement := `UPDATE BOOK SET isbn=?, title=?, category=?, description=?, author=? WHERE id=?`
 
 	// execute the sql statement
-	_, err := db.Exec(sqlStatement, book.ID, book.Isbn, book.Title)
+	_, err := db.Exec(sqlStatement, book.Isbn, book.Title, book.Category, book.Description, book.Author, book.ID)
 
 	if err != nil {
 		log.Fatalf("Unable to execute the query. %v", err)
