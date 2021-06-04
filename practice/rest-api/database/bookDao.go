@@ -129,20 +129,3 @@ func GetAllBooks() ([]model.Book, error) {
 
 	return books, nil
 }
-
-const TABLE_BOOK = `
-CREATE TABLE BOOK(
-	book_id int primary key auto_increment not null,
-	isbn varchar(20),
-	title varchar(20),
-	author_id int FOREIGN KEY REFERENCES author(author_id)
-)
-`
-
-const TABLE_AUTHOR = `
-CREATE TABLE AUTHOR(
-	author_id int primary key auto_increment not null,
-	firstname varchar(20) not null,
-	lastname varchar(20) not null
-)
-`
