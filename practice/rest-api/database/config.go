@@ -2,23 +2,32 @@ package database
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
-const (
-	DB_DRIVER   = "mysql"
-	DB_USER     = "7MBlm8Z2XX"
-	DB_PASSWORD = "GlDhD4mSVn"
-	DB_NAME     = "7MBlm8Z2XX"
-	DB_SERVER   = "remotemysql.com"
-	DB_PORT     = "3306"
-)
+type DB struct {
+	DB_DRIVER   string
+	DB_USER     string
+	DB_PASSWORD string
+	DB_NAME     string
+	DB_SERVER   string
+	DB_PORT     string
+}
+
+var db *DB
+
+func init() {
+	db = readCofigFile()
+}
 
 func GetDbConn() *sql.DB {
-
-	db, err := sql.Open(DB_DRIVER, DB_USER+":"+DB_PASSWORD+"@tcp("+DB_SERVER+":"+DB_PORT+")/"+DB_NAME)
+	fmt.Println(db.DB_DRIVER, db.DB_USER+":"+db.DB_PASSWORD+"@tcp("+db.DB_SERVER+":"+db.DB_PORT+")/"+db.DB_NAME)
+	db, err := sql.Open(db.DB_DRIVER, db.DB_USER+":"+db.DB_PASSWORD+"@tcp("+db.DB_SERVER+":"+db.DB_PORT+")/"+db.DB_NAME)
 
 	// if there is an error opening the connection, handle it
 	if err != nil {
@@ -35,4 +44,22 @@ func GetDbConn() *sql.DB {
 	fmt.Println("Successfully connected!")
 	// return the connection
 	return db
+}
+
+func readCofigFile() *DB {
+	var db DB
+	jsonFile, err := os.Open("dbconfig.json")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	// defer the closing of our jsonFile so that we can parse it later on
+	defer jsonFile.Close()
+
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	json.Unmarshal([]byte(byteValue), &db)
+
+	fmt.Println(db)
+	return &db
 }
