@@ -10,6 +10,8 @@ import (
 
 const URL = "http://localhost:8080"
 
+var client = getClient()
+
 func MakeRequest(reqType string, path string, body io.Reader) []byte {
 	req, err := http.NewRequest(reqType, URL+path, body)
 
