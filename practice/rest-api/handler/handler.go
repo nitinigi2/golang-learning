@@ -8,19 +8,14 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
-	"github.com/nitinigi2/practice/rest-api/database"
 	"github.com/nitinigi2/practice/rest-api/model"
+	"github.com/nitinigi2/practice/rest-api/repository"
 )
 
-func RegisterHandlers(r *mux.Router) {
-	r.HandleFunc("/api/books", booksHandler)
-	r.HandleFunc("/api/books/{id}", bookHandler)
-}
-
-func booksHandler(w http.ResponseWriter, r *http.Request) {
+func BooksHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		books, err := database.GetAllBooks()
+		books, err := repository.GetAllBooks()
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -35,7 +30,7 @@ func booksHandler(w http.ResponseWriter, r *http.Request) {
 			log.Fatal(err)
 			return
 		}
-		err = database.SaveBook(book)
+		err = repository.SaveBook(book)
 		//err = service.CreateBook(book)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
@@ -48,7 +43,7 @@ func booksHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func bookHandler(w http.ResponseWriter, r *http.Request) {
+func BookHandler(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id := params["id"]
 	bookId, err := strconv.Atoi(id)
@@ -61,7 +56,7 @@ func bookHandler(w http.ResponseWriter, r *http.Request) {
 	case http.MethodGet:
 		w.Header().Set("Content-Type", "application/json")
 
-		book, err := database.GetBook(bookId)
+		book, err := repository.GetBook(bookId)
 
 		if err != nil {
 			w.WriteHeader(http.StatusNotFound)
@@ -77,7 +72,7 @@ func bookHandler(w http.ResponseWriter, r *http.Request) {
 
 	case http.MethodDelete:
 
-		err := database.DeleteBook(bookId)
+		err := repository.DeleteBook(bookId)
 		//err := service.DeleteBook(bookId)
 
 		if err != nil {
@@ -97,7 +92,7 @@ func bookHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		//err := service.UpdateBook(book)
-		err := database.UpdateBook(book)
+		err := repository.UpdateBook(book)
 		if err != nil {
 			log.Fatal(err)
 			w.WriteHeader(http.StatusInternalServerError)
