@@ -1,16 +1,17 @@
-package database
+package repository
 
 import (
 	"database/sql"
 	"fmt"
 	"log"
 
+	"github.com/nitinigi2/practice/rest-api/configuration"
 	"github.com/nitinigi2/practice/rest-api/model"
 )
 
 func SaveBook(book model.Book) error {
 	// get db connection
-	db := GetDbConn()
+	db := configuration.GetDbConn()
 	fmt.Println("book", book)
 	// close the db connection
 	defer db.Close()
@@ -33,7 +34,7 @@ func SaveBook(book model.Book) error {
 
 func DeleteBook(id int) error {
 	// get db connection
-	db := GetDbConn()
+	db := configuration.GetDbConn()
 
 	// close the db connection
 	defer db.Close()
@@ -52,7 +53,7 @@ func DeleteBook(id int) error {
 
 func UpdateBook(book model.Book) error {
 	// get db connection
-	db := GetDbConn()
+	db := configuration.GetDbConn()
 
 	// close the db connection
 	defer db.Close()
@@ -71,7 +72,7 @@ func UpdateBook(book model.Book) error {
 
 func GetBook(id int) (model.Book, error) {
 	// get db connection
-	db := GetDbConn()
+	db := configuration.GetDbConn()
 
 	// close the db connection
 	defer db.Close()
@@ -102,7 +103,7 @@ func GetBook(id int) (model.Book, error) {
 
 func GetAllBooks() ([]model.Book, error) {
 	// get db connection
-	db := GetDbConn()
+	db := configuration.GetDbConn()
 
 	// close the db connection
 	defer db.Close()
