@@ -14,7 +14,8 @@ var (
 	listenAddr string
 )
 
-func main() {
+// change to main func
+func testMain() {
 	flag.StringVar(&listenAddr, "listen-addr", ":5000", "server listen address")
 	flag.Parse()
 
