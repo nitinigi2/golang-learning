@@ -26,7 +26,6 @@ func init() {
 }
 
 func GetDbConn() *sql.DB {
-	fmt.Println(db.DB_DRIVER, db.DB_USER+":"+db.DB_PASSWORD+"@tcp("+db.DB_SERVER+":"+db.DB_PORT+")/"+db.DB_NAME)
 	db, err := sql.Open(db.DB_DRIVER, db.DB_USER+":"+db.DB_PASSWORD+"@tcp("+db.DB_SERVER+":"+db.DB_PORT+")/"+db.DB_NAME)
 
 	// if there is an error opening the connection, handle it
