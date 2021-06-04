@@ -1,3 +1,6 @@
+// This file will do crud operations in-memory without any db
+// it reads sample json data to load data initially
+// to use this file call these crud methods from handler file
 package service
 
 import (
@@ -10,10 +13,12 @@ import (
 	"github.com/nitinigi2/practice/rest-api/model"
 )
 
+// temp storage to store all books with their ids
 var booksMap = make(map[int]model.Book)
 
 var books = make([]model.Book, 0)
 
+// keeping bookcounter, so new book id can be auto-increment
 var bookCounter = 1
 
 func init() {
@@ -23,6 +28,7 @@ func init() {
 	fmt.Println("Successfully loaded books.json")
 }
 
+// load sample json books file and store in slice of books
 func loadSampleJson() {
 	jsonFile, err := os.Open("books.json")
 	if err != nil {
@@ -39,12 +45,14 @@ func loadSampleJson() {
 	json.Unmarshal([]byte(byteValue), &books)
 }
 
+// load map with books id as key and book as value
 func loadBooksMap() {
 	for _, book := range books {
 		booksMap[book.ID] = book
 	}
 }
 
+// get api for all books
 func GetBooks() []model.Book {
 	books := make([]model.Book, 0)
 
@@ -55,6 +63,7 @@ func GetBooks() []model.Book {
 	return books
 }
 
+// get api for single book
 func GetBook(id int) (model.Book, error) {
 	book, ok := booksMap[id]
 
@@ -65,6 +74,7 @@ func GetBook(id int) (model.Book, error) {
 	return model.Book{}, errors.New("book not found")
 }
 
+// post api for creating book
 func CreateBook(book model.Book) error {
 	if book.ID != 0 {
 		return errors.New("book cannot be saved")
@@ -79,6 +89,7 @@ func CreateBook(book model.Book) error {
 	return nil
 }
 
+// put api for updating book
 func UpdateBook(book model.Book) error {
 	_, ok := booksMap[book.ID]
 
@@ -90,6 +101,7 @@ func UpdateBook(book model.Book) error {
 	return nil
 }
 
+// delete api for deleting book
 func DeleteBook(id int) error {
 	_, ok := booksMap[id]
 
