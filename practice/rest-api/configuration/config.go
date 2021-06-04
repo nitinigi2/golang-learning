@@ -1,4 +1,4 @@
-package database
+package configuration
 
 import (
 	"database/sql"
@@ -59,6 +59,5 @@ func readCofigFile() *DB {
 
 	json.Unmarshal([]byte(byteValue), &db)
 
-	fmt.Println(db)
 	return &db
 }
