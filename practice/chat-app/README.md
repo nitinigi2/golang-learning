@@ -12,11 +12,9 @@ To run client1
 
 ```go run client.go```
 
-To run client2
+you can run multiple clients with multiple terminals
 
-```go run main.go```
-
-you can write multiple clients to connect all of them, each client send message through cli and same message is forwarded to all connected clients.
+```quit``` is used to close connection from client side
 
 
 
