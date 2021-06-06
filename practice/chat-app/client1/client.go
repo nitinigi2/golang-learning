@@ -8,7 +8,6 @@ import (
 	"log"
 	"net/url"
 	"os"
-	"os/signal"
 	"strings"
 
 	"github.com/gorilla/websocket"
@@ -37,8 +36,8 @@ func main() {
 	flag.Parse()
 	log.SetFlags(0)
 
-	interrupt := make(chan os.Signal, 1)
-	signal.Notify(interrupt, os.Interrupt)
+	// interrupt := make(chan os.Signal, 1)
+	// signal.Notify(interrupt, os.Interrupt)
 
 	u := url.URL{Scheme: "ws", Host: *addr, Path: "/ws"}
 	log.Printf("connected to %s", u.String())
@@ -75,7 +74,7 @@ func main() {
 		}
 
 		if text == "quit\r\n" {
-			<-interrupt
+			//<-interrupt
 			err = c.WriteMessage(websocket.CloseMessage, websocket.FormatCloseMessage(websocket.CloseNormalClosure, ""))
 			if err != nil {
 				log.Println("write close:", err)
