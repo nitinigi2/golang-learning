@@ -4,6 +4,6 @@ Two main components : server and client
 
 To run this application : 
 
-        go get github.com/dgrijalva/jwt-go
-        go run server.go
-        go run client.go
+        go get github.com/dgrijalva/jwt-go  //to get jwt dependency installed in your system
+        go run server.go                    //to run server
+        go run client/client.go             // to run client
