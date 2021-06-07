@@ -8,6 +8,8 @@ run ```go run .``` this will run the main.go file on localhost
 
 Database configuration are placed in dbconfig.json file
 
+Server configuration are placed in serverconfig.json file
+
 sample books data is placed in books.json
 
 API's - 
