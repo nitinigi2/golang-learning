@@ -7,5 +7,5 @@ import (
 
 func RegisterHandlers(r *mux.Router) {
 	r.HandleFunc("/api/books", handler.BooksHandler)
-	r.HandleFunc("/api/books/{id}", handler.BookHandler)
+	r.HandleFunc("/api/books/{id:[0-9]+}", handler.BookHandler)
 }
