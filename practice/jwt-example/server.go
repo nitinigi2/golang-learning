@@ -8,11 +8,10 @@ import (
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
-var mySigningKey = []byte("cds")
+var mySigningKey = []byte("confidential")
 
 func homePage(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello World")
-	fmt.Println("Endpoint Hit: homePage")
 }
 
 func isAuthorized(endpoint func(http.ResponseWriter, *http.Request)) http.Handler {
