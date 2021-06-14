@@ -60,3 +60,4 @@ TroubleShoot : (Cannot connect to mysql database: Access denied)
 Additional Info : 
 
       .env file : contains db and server config  // do not commit this file when working on real project
+      [database persistence in docker](https://www.youtube.com/watch?v=G-5c25DYnfI)
