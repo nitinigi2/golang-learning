@@ -1,14 +1,18 @@
 # Run this application run in terminal:
 
-        1)docker build -t book-service .  //this will create a docker image with current directory
+Create a folder named mysqldb : this folder will be used for database persistance
 
-        2) docker compose up               //this will run 2 containers, 1 for webapp and 1 for mysql db
+      1)docker build -t book-service .  //this will create a docker image with current directory
 
-        3) Once mysql container is running : 
+      2) docker compose up               //this will run 2 containers, 1 for webapp and 1 for mysql db
+
+      3) Once mysql container is running : 
 
           3.1) Login into mysql container using:
                  docker exec -it container_id bash
-          3.2) create schema and table using : 
+          3.2) Login as root user : 
+                 mysql -u root -p
+          3.3) create schema and table using : 
                  create database restapi;
                  use restapi;
                  CREATE TABLE book (
@@ -23,22 +27,22 @@
 
 To stop running containers-  
 
-        docker compose down
+      docker compose down
 
 API's - 
 
-        1) GET - /api/books
+      1) GET - /api/books
 
-        2) GET - /api/books/{id}
+      2) GET - /api/books/{id}
 
-        3) POST - /api/books
+      3) POST - /api/books
 
-        4) PUT - /api/books/{id}
+      4) PUT - /api/books/{id}
 
-        5) DELETE - /api/books/{id}
+      5) DELETE - /api/books/{id}
 
 
-        book json format : 
+book json format : 
 
         {
                 "id": 1,
@@ -51,6 +55,8 @@ API's -
 
 TroubleShoot : (Cannot connect to mysql database: Access denied)
 
-        docker-compose down -v          //this will stop and remove running containers with any volume or network
+      docker-compose down -v                     //this will stop and remove running containers with any volume or network
 
-Note : mysql db folder is used for persistance
+Additional Info : 
+
+      .env file : contains db and server config  // do not commit this file when working on real project
