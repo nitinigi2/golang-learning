@@ -33,7 +33,7 @@ services:
             - bookapi/.env
     
     auth:
-         #building image using authserver dockerfile
+        #building image using authserver dockerfile
         build: authserver/
         #port-mapping
         ports: 
