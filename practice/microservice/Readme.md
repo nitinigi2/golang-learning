@@ -1,7 +1,5 @@
 # Run this application run in terminal:
 
-Create a folder named mysqldb : this folder will be used for database persistance
-
     1) docker compose up               //this will run 2 containers, 1 for webapp and 1 for mysql db
 
     2) Once mysql container is running : 
