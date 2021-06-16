@@ -1,0 +1,49 @@
+version: "3.8"
+
+services: 
+    mysql:
+        #pull image from docker hub
+        image: mysql
+        restart: always
+        ports: 
+           - 3386:3306
+        #for data persistance
+        volumes: 
+            - ./mysqldb:/var/lib/mysql
+        #setting environment variables
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+        
+    web:
+        #building image using bookapi dockerfile
+        build: bookapi/
+        #port-mapping
+        ports: 
+            - 5000:5000
+        #linking with mysql
+        links: 
+            - mysql
+        #setting environment variables
+        environment:
+            - AUTH_SERVER_HOST=auth
+            - AUTH_SERVER_IP=8080
+            - DB_SERVER=mysql
+        #load .env file
+        env_file:
+            - bookapi/.env
+    
+    auth:
+         #building image using authserver dockerfile
+        build: authserver/
+        #port-mapping
+        ports: 
+            - 8000:8080
+        #linking with mysql
+        links: 
+            - mysql
+        #setting environment variables
+        environment: 
+            - DB_SERVER=mysql
+        #load .env file
+        env_file: 
+            - authserver/.env
