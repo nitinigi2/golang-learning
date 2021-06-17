@@ -1,3 +1,19 @@
+# Desciption
+
+This application has 2 services : 
+
+    1. auth service for authentication
+    2. book service for crud operations
+
+Usage : 
+
+    1. User should login first by auth-server. 
+       http://localhost:8000/login
+       This will create a JWT token and will store it in cache.
+
+    2. Once user is authorised then he can call book crud api's.
+       http://localhost:5000/api/books
+
 # Run this application:
 
     1) docker compose up               //this will run 3 containers, 1 for bookapi, 1 for authserver and 1 for mysql db
