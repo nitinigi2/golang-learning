@@ -1,6 +1,6 @@
-# Run this application run in terminal:
+# Run this application:
 
-    1) docker compose up               //this will run 2 containers, 1 for webapp and 1 for mysql db
+    1) docker compose up               //this will run 3 containers, 1 for bookapi, 1 for authserver and 1 for mysql db
 
     2) Once mysql container is running : 
 
@@ -32,6 +32,8 @@ To stop running containers-
 
 API's - 
 
+Bookapi req/resp format-
+
     1) GET - /api/books
 
     2) GET - /api/books/{id}
@@ -42,8 +44,11 @@ API's -
 
     5) DELETE - /api/books/{id}
 
+BookApi server accessible on 
 
-book json format : 
+    http://localhost:5000/
+
+Book json format : 
 
     {
         "id": 1,
@@ -53,6 +58,24 @@ book json format :
         "description": "by Elon",
         "author": "Elon"
     }
+
+Authserver-
+
+    1) POST - /login
+
+    2) POST - /logout
+
+Auth req format
+
+    {
+        "username: : "admin",
+        "password" : "admin"
+    }
+
+Auth server accessible on 
+
+    http://localhost:8000/
+
 
 TroubleShoot : (Cannot connect to mysql database: Access denied)
 
