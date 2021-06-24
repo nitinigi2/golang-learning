@@ -1,18 +1,18 @@
 # Desciption
 
-This application has 2 services : 
+This application has 3 services : 
 
     1. auth service for authentication
     2. book service for crud operations
+    3. nginx service as api gateway
 
 Usage : 
 
-    1. User should login first by auth-server. 
-       http://localhost:8000/login
-       This will create a JWT token and will store it in cache.
-
+    1. User should login first
+       http://localhost/authapi/login
+    
     2. Once user is authorised then he can call book crud api's.
-       http://localhost:5000/api/books
+       http://localhost/bookapi/api/books
 
 # Run this application:
 
@@ -51,19 +51,21 @@ API's -
 
 Bookapi req/resp format-
 
-    1) GET - /api/books
+    1) GET - /bookapi/api/books
 
-    2) GET - /api/books/{id}
+    2) GET - /bookapi/api/books/{id}
 
-    3) POST - /api/books
+    3) POST - /bookapi/api/books
 
-    4) PUT - /api/books/{id}
+    4) PUT - /bookapi/api/books/{id}
 
-    5) DELETE - /api/books/{id}
+    5) DELETE - /bookapi/api/books/{id}
 
-BookApi server accessible on 
+Authserver-
 
-    http://localhost:5000/
+    1) POST - /authapi/login
+
+    2) POST - /authapi/logout
 
 Book json format : 
 
@@ -76,23 +78,12 @@ Book json format :
         "author": "Elon"
     }
 
-Authserver-
-
-    1) POST - /login
-
-    2) POST - /logout
-
 Auth req format
 
     {
         "username: : "admin",
         "password" : "admin"
     }
-
-Auth server accessible on 
-
-    http://localhost:8000/
-
 
 TroubleShoot : (Cannot connect to mysql database: Access denied)
 
@@ -105,3 +96,39 @@ Additional Info :
 [database persistence in docker](https://www.youtube.com/watch?v=G-5c25DYnfI)
 
 [docker swarm](https://www.youtube.com/watch?v=m6WgX_LBtEk)
+
+
+Bookapi and authserver can be accessed by direct ip's as well.
+
+BookApi server accessible on 
+
+    http://localhost:5000/
+
+Auth server accessible on 
+
+    http://localhost:8000/
+
+API's - 
+
+Bookapi req/resp format-
+
+    1) GET - /api/books
+
+    2) GET - /api/books/{id}
+
+    3) POST - /api/books
+
+    4) PUT - /api/books/{id}
+
+    5) DELETE - /api/books/{id}
+
+Authserver-
+
+    1) POST - /login
+
+    2) POST - /logout
+
+However, in general we should always access api's from gateway only not from individual ips.
+
+
+
