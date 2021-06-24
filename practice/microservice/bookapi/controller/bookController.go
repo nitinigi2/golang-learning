@@ -9,49 +9,88 @@ import (
 	"github.com/nitinigi2/practice/book-api/service"
 )
 
-func BooksHandler(w http.ResponseWriter, r *http.Request) {
+func SaveBook(w http.ResponseWriter, r *http.Request) {
+	ok, role, err := service.Authorize(r)
 
-	if !service.IsAuthorized(w, r) {
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	switch r.Method {
 
-	case http.MethodGet:
-		service.GetBooks(w, r)
-
-	case http.MethodPost:
+	if role == "admin" && ok {
 		service.SaveBook(w, r)
-
-	default:
-		w.WriteHeader(http.StatusMethodNotAllowed)
+		log.Println("Book saved successfully")
+	} else {
+		log.Println("User doesn't have permission to save book")
+		w.WriteHeader(http.StatusUnauthorized)
 	}
 }
 
-func BookHandler(w http.ResponseWriter, r *http.Request) {
+func GetBooks(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	service.GetBooks(w, r)
+	w.WriteHeader(http.StatusOK)
+	log.Println("Books retrived successfully")
+}
 
-	params := mux.Vars(r)
-	id := params["id"]
-	bookId, err := strconv.Atoi(id)
+func UpdateBook(w http.ResponseWriter, r *http.Request) {
+	bookId, err := getBooksId(r)
 	if err != nil {
 		log.Fatal("Id not valid")
-	}
-
-	if !service.IsAuthorized(w, r) {
 		return
 	}
 
-	switch r.Method {
+	ok, role, err := service.Authorize(r)
 
-	case http.MethodGet:
-		service.GetBook(w, bookId)
-
-	case http.MethodDelete:
-		service.DeleteBook(w, bookId)
-
-	case http.MethodPut:
-		service.UpdateBook(w, r, bookId)
-
-	default:
-		w.WriteHeader(http.StatusMethodNotAllowed)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
 	}
+
+	if role == "admin" && ok {
+		service.UpdateBook(w, r, bookId)
+	} else {
+		log.Fatal("User doesn't have permission to perform this action")
+		w.WriteHeader(http.StatusUnauthorized)
+	}
+
+}
+
+func DeleteBook(w http.ResponseWriter, r *http.Request) {
+	bookId, err := getBooksId(r)
+	if err != nil {
+		log.Fatal("Id not valid")
+		return
+	}
+
+	ok, role, err := service.Authorize(r)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	if role == "admin" && ok {
+		service.DeleteBook(w, bookId)
+	} else {
+		log.Fatal("User doesn't have permission to perform this action")
+		w.WriteHeader(http.StatusUnauthorized)
+	}
+
+}
+
+func GetBook(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	bookId, err := getBooksId(r)
+	if err != nil {
+		log.Fatal("Id not valid")
+		return
+	}
+	service.GetBook(w, bookId)
+}
+
+func getBooksId(r *http.Request) (int, error) {
+	params := mux.Vars(r)
+	id := params["id"]
+	return strconv.Atoi(id)
 }

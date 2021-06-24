@@ -21,7 +21,7 @@ func IsUserValid(user *entity.User) (*entity.User, error) {
 	// execute the sql statement
 	row := conn.QueryRow(sqlStatement, user.UserName, user.Password)
 
-	err := row.Scan(&user.UserName, &user.Password)
+	err := row.Scan(&user.UserName, &user.Password, &user.Role)
 
 	switch err {
 

@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"log"
 	"net/http"
 	"time"
 )
@@ -9,7 +10,8 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 	_, err := r.Cookie("token")
 
 	if err != nil {
-		w.WriteHeader(http.StatusUnauthorized)
+		log.Println("User is not logged in")
+		w.WriteHeader(http.StatusOK)
 	}
 
 	http.SetCookie(w, &http.Cookie{
@@ -18,4 +20,6 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 		Expires: time.Now(),
 		MaxAge:  -1,
 	})
+
+	log.Println("User logged out successfully.....")
 }

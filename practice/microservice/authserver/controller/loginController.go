@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/bookApiDocker/authserver/entity"
@@ -11,9 +12,10 @@ import (
 func Login(w http.ResponseWriter, r *http.Request) {
 	cookie, err := r.Cookie("token")
 	if err == nil {
-		if ok, _ := service.IsValidToken(cookie.Value); ok {
+		if ok, userRole, _ := service.IsValidToken(cookie.Value); ok {
 			fmt.Println("User already authenticated")
 			w.WriteHeader(http.StatusOK)
+			w.Write([]byte(userRole))
 			return
 		}
 	}
@@ -34,4 +36,5 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		Expires: expirationTime,
 	})
 
+	log.Println("User logged in successfully....")
 }

@@ -2,23 +2,26 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
+	"os"
 
-	"github.com/bookApiDocker/authserver/controller"
 	"github.com/gorilla/mux"
 )
 
 func main() {
 	r := mux.NewRouter()
-
-	r.HandleFunc("/login", controller.Login).Methods("Post")
-	r.HandleFunc("/logout", controller.Logout).Methods("Post")
+	RegisterRoutes(r)
 
 	srv := &http.Server{
-		Addr:    ":8080",
+		Addr:    ":" + os.Getenv("SERVER_PORT"),
 		Handler: r,
 	}
 
-	fmt.Println("listening on port 8080")
-	srv.ListenAndServe()
+	fmt.Println("listening on port", srv.Addr)
+
+	if err := srv.ListenAndServe(); err != nil {
+		log.Fatal("auth server couldn't start on port: ", srv.Addr)
+	}
+
 }

@@ -7,7 +7,6 @@ import (
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
-	//"github.com/nitinigi2/practice/book-api/utilities"
 )
 
 //var myEnv map[string]string = utilities.LoadEnvVaribles()

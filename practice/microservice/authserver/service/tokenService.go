@@ -16,6 +16,7 @@ func GenerateJWT(user *entity.User) (string, time.Time, error) {
 	expirationTime := time.Now().Add(5 * time.Minute)
 	claims := &entity.Claims{
 		Username: user.UserName,
+		UserRole: user.Role,
 		StandardClaims: jwt.StandardClaims{
 			// In JWT, the expiry time is expressed as unix milliseconds
 			ExpiresAt: expirationTime.Unix(),
@@ -27,14 +28,14 @@ func GenerateJWT(user *entity.User) (string, time.Time, error) {
 	tokenString, err := token.SignedString(mySigningKey)
 
 	if err != nil {
-		log.Fatal("something Went Wrong: %s", err.Error())
+		log.Fatal("something Went Wrong", err.Error())
 		return "", time.Now(), err
 	}
 
 	return tokenString, expirationTime, nil
 }
 
-func IsValidToken(token string) (bool, error) {
+func IsValidToken(token string) (bool, string, error) {
 	claims := &entity.Claims{}
 	tkn, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -43,5 +44,5 @@ func IsValidToken(token string) (bool, error) {
 		return mySigningKey, nil
 	})
 
-	return tkn.Valid, err
+	return tkn.Valid, claims.UserRole, err
 }

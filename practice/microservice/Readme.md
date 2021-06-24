@@ -37,9 +37,10 @@ Usage :
                  );
                   CREATE TABLE user (
                               username varchar(255) primary key not null,
-                              password varchar(255)
+                              password varchar(255),
+                              role varchar(255)
                   );
-                  INSERT INTO USER VALUES("admin", "admin");
+                  INSERT INTO USER VALUES("admin", "admin", "admin");
 
 
 To stop running containers-  

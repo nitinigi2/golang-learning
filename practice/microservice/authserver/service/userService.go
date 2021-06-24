@@ -1,6 +1,7 @@
 package service
 
 import (
+	"log"
 	"net/http"
 	"time"
 
@@ -12,6 +13,7 @@ func IssueToken(user *entity.User, w http.ResponseWriter) (string, time.Time, er
 	// if user is valid i.e present in db
 	user, err := repository.IsUserValid(user)
 	if err != nil {
+		log.Println("Not a valid user")
 		return "", time.Now(), err
 	}
 	// issue a token

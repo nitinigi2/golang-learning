@@ -29,7 +29,7 @@ func SaveBook(book model.Book) error {
 		return err
 	}
 
-	fmt.Println("Inserted a single record")
+	fmt.Println("Book is saved in DB successfully.")
 	return nil
 }
 

@@ -1,6 +1,13 @@
 version: "3.8"
 
 services: 
+    ngnix:
+        build: nginx/
+        links: 
+            - web
+            - auth
+        ports: 
+            - 80:80
     mysql:
         #pull image from docker hub
         image: mysql

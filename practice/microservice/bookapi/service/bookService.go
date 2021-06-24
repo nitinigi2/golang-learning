@@ -19,24 +19,26 @@ func SaveBook(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	err = repository.SaveBook(book)
-	//err = service.CreateBook(book)
+
 	if err != nil {
+		log.Fatal("Error in saving book", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+	log.Println("Book saved successfully.")
 	w.WriteHeader(http.StatusCreated)
 }
 
 func DeleteBook(w http.ResponseWriter, bookId int) {
 
 	err := repository.DeleteBook(bookId)
-	//err := service.DeleteBook(bookId)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Error in deleting book", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+	log.Println("Book deleted successfully.")
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -46,17 +48,18 @@ func UpdateBook(w http.ResponseWriter, r *http.Request, bookId int) {
 	err := json.NewDecoder(r.Body).Decode(&book)
 
 	if err != nil {
+		log.Fatal("Error in parsing book payload", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
-	//err := service.UpdateBook(book)
 	err = repository.UpdateBook(book, bookId)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Error in updating book", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+	log.Println("Book updated successfully.")
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -67,6 +70,7 @@ func GetBook(w http.ResponseWriter, bookId int) {
 	book, err := repository.GetBook(bookId)
 
 	if err != nil {
+		log.Println("Book not found with id", err)
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
@@ -83,8 +87,7 @@ func GetBooks(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	books, err := repository.GetAllBooks()
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("No book found", err)
 	}
-	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(books)
 }
