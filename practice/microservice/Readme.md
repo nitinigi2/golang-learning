@@ -8,10 +8,10 @@ This application has 3 services :
 
 Usage : 
 
-    1. User should login first
+    1. User can login by - 
        http://localhost/authapi/login
     
-    2. Once user is authorised then he can call book crud api's.
+    2. Book api's are accessible on- 
        http://localhost/bookapi/api/books
 
     3. Only Get request are accessible by anyone. For post, put and delete book api's user must logged in as 
