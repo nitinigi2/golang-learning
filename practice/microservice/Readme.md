@@ -14,6 +14,11 @@ Usage :
     2. Once user is authorised then he can call book crud api's.
        http://localhost/bookapi/api/books
 
+    3. Only Get request are accessible by anyone. For post, put and delete book api's user must logged in as 
+       {
+          "username": "admin",
+          "password": "admin" 
+       }
 # Run this application:
 
     1) docker compose up               //this will run 3 containers, 1 for bookapi, 1 for authserver and 1 for mysql db
